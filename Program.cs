@@ -6,16 +6,21 @@ namespace ControlWork // Итоговая проверочная работа
     {
         static void Main(string[] args)
         {
+
+            // Метод для ввода данных элементов строкового массива 
+
             string EnterArrayElement(int index)
             {
                 string userString = "";
-                Console.Write($"Введите {index} элемент массива и нажмите клавишу Enter: ");
+                Console.Write($"Введите {index} элемент массива: ");
                 userString = Console.ReadLine();
                 return userString;
             }
 
             void ControlWork()
             {
+                // Ввод исходных данных
+
                 string userString = "";
                 Console.Write("Введите размер массива и нажмите клавишу Enter: ");
                 userString = Console.ReadLine();
@@ -25,72 +30,55 @@ namespace ControlWork // Итоговая проверочная работа
                 {
                     ArrayInitial[i] = EnterArrayElement(i);
                 }
+                Console.WriteLine();
                 Console.WriteLine($"Вы ввели массив из {arraySize} элементов:");
+                PrintArray(ArrayInitial);
+
+                // Проверка длины каждого элемента и расчёт размера служебного массива
+
+                Boolean[] ArrayControl = new Boolean[arraySize];
+                int elementSizeLimit = 3;
+                int counterNewArray = 0;
                 for (int i = 0; i < arraySize; i++)
                 {
-                    Console.WriteLine(ArrayInitial[i]);
+                    if (ArrayInitial[i].Length <= elementSizeLimit)
+                    {
+                        ArrayControl[i] = true;
+                        counterNewArray++;
+                    }
+                    else ArrayControl[i] = false;
                 }
+
+                // Создание и запись нового массива
+
+                string[] ArrayResult = new string[counterNewArray];
+                int j = 0;
+                for (int i = 0; i < arraySize; i++)
+                {
+                    if (ArrayControl[i] == true)
+                    {
+                        ArrayResult[j] = ArrayInitial[i];
+                        j++;
+                    }
+                }
+
+                // Вывод на печать нового массива
+
+                Console.WriteLine();
+                Console.WriteLine($"Результирующий массив состоит из {counterNewArray} элементов:");
+                PrintArray(ArrayResult);
             }
 
             ControlWork();
 
-        }
 
-
-
-        static void FillArray(int[,] Array, int minValue = 0, int maxValue = 99)
-        {
-            maxValue++;
-            Random rnd = new Random();
-            int rows = Array.GetLength(0);
-            int columns = Array.GetLength(1);
-            for (int i = 0; i < rows; i++)
+            static void PrintArray(string[] Array)
             {
-                for (int j = 0; j < columns; j++)
+                int rows = Array.GetLength(0);
+                for (int i = 0; i < rows; i++)
                 {
-                    Array[i, j] = rnd.Next(minValue, maxValue);
+                    Console.Write($"{Array[i]}\t");
                 }
-            }
-        }
-
-        static void FillArray(double[,] Array, double minValue = 0, double maxValue = 1)
-        {
-            Random rnd = new Random();
-            int rows = Array.GetLength(0);
-            int columns = Array.GetLength(1);
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < columns; j++)
-                {
-                    Array[i, j] = minValue + rnd.NextDouble() * (maxValue - minValue);
-                }
-            }
-        }
-
-        static void PrintArray(int[,] Array)
-        {
-            int rows = Array.GetLength(0);
-            int columns = Array.GetLength(1);
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < columns; j++)
-                {
-                    Console.Write($"{Array[i, j]}\t");
-                }
-                Console.WriteLine();
-            }
-        }
-        static void PrintArray(double[,] Array)
-        {
-            int rows = Array.GetLength(0);
-            int columns = Array.GetLength(1);
-            for (int i = 0; i < rows; i++)
-            {
-                for (int j = 0; j < columns; j++)
-                {
-                    Console.Write($"{Array[i, j]}\t");
-                }
-                Console.WriteLine();
             }
         }
     }
